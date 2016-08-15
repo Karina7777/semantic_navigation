@@ -4,15 +4,16 @@ module SemanticNavigation
   class Railtie < Rails::Railtie
     BOOSTSTRAP_NAMESPACES = {
       2 => TwitterBootstrap,
-      3 => TwitterBootstrap3
+      3 => TwitterBootstrap3,
+      4 => TwitterBootstrapFolded
     }
 
-    BOOTSTRAP_RENDERERS = [
+    BOOTSTRAP_RENDERERS = {
       bootsrap_breadcrumb: "Breadcrumb",
       bootstrap_list: "List",
       bootstrap_tabs: "Tabs",
       bootstrap_pills: "Tabs",
-    ]
+    }
 
     initializer "semantic_navigation.extend_helper_methods" do
       ActiveSupport.on_load :action_view do
@@ -39,10 +40,10 @@ module SemanticNavigation
     end
 
     def self.setup_bootstrap_renderers
-      bootstrap_version = config.bootstrap_version
+      bootstrap_version = config.bootstrap_version(4)
       BOOTSTRAP_RENDERERS.keys.each do |renderer_name|
         renderer_class = bootstrap_renderer_class(bootstrap_version, renderer_name)
-        config.register_renderer(key, renderer_class)
+        config.register_renderer(renderer_name, renderer_class)
       end
     end
 
@@ -65,10 +66,10 @@ module SemanticNavigation
        load SemanticNavigation.actual_config_location
      }
     else
-     ActionDispatch::Callbacks.to_prepare {
-       SemanticNavigation::Railtie.register_bootstrap_renderers
-       load SemanticNavigation.actual_config_location
-     }
+      ActionDispatch::Callbacks.to_prepare {
+        SemanticNavigation::Railtie.register_bootstrap_renderers
+        load SemanticNavigation.actual_config_location
+      }
     end
 
   end

@@ -27,7 +27,9 @@ module SemanticNavigation
         def render_node_content(object)
           if (!until_level.nil? && until_level >= object.level) || until_level.nil?
             node_content(object) do
-              object.sub_elements.map{|element| element.render(self)}.compact.sum
+              wrapper_for_first_element do
+                object.sub_elements.map{ |element| element.render(self) }.compact.sum
+              end
             end
           end
         end

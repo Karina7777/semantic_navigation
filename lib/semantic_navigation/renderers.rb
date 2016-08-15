@@ -10,6 +10,9 @@ twitter_bootstrap/tabs
 twitter_bootstrap_3/breadcrumb
 twitter_bootstrap_3/list
 twitter_bootstrap_3/tabs
+twitter_bootstrap_folded/list
+twitter_bootstrap_folded/tabs
+twitter_bootstrap_folded/breadcrumb
 ).each do |file|
   require "semantic_navigation/#{file}"
 end
